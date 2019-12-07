@@ -12,7 +12,9 @@ let bots = [];
 process.on('uncaughtException', function(err) {
 	//console.log('Caught exception: ', err);
 });
-let dedsite = false
+
+//This code fully belongs to mathias377.
+//You can edit it but you cannot publish the edited version.
 stdin.on("data", function(d) {
 	let msg = d.toString().trim();
 		try {
@@ -23,24 +25,29 @@ stdin.on("data", function(d) {
 
 })
 
-request('https://mathias377site.netlify.com/cursors/botConfig.json', (err, req, body) => {
-
+request('https://raw.githubusercontent.com/mathmakgakpak/mbots-for-cursors.io/master/botupdates.json', (err, req, body) => {
 	if (err) {
 		console.warn(err)
 	}
 	body = body.replace(/\r/g, '');
-	let version = JSON.parse(body).ver
+	let version = JSON.parse(body).version;
+	let messageOfUpdate = JSON.parse(body).message;
+	let priority = JSON.parse(body).priority;
 
 	if (version == ver) {
 		console.log(`Your version is actual ${version}`.green)
 	} else {
-		console.log(`Update your bot version. Your version is ${ver} you need update it to ${version}`.red)
+		if(priority == 0) {
+			console.log(`Update your bot version. Your version is ${ver} you should update it to ${version}`.green)
+			console.log(`Update messages: ${messageOfUpdate}`)
+		} else if(priority == 1) {
+			console.log(`Update your bot version. Your version is ${ver} you must update it to ${version}`.red)
+			console.log(`Update messages: ${messageOfUpdate}`)
+		}
+		
 	}
 })
 
-
-
-//startBots(50000, 0)
 let ownProxies = true
 
 let proxies;
@@ -58,9 +65,7 @@ let boty;
 
 console.log(logo(packagejson).render());
 console.log("------------------------------------------------".blue);
-console.log(`To start bots type (without quotes) "startBots count" to stop "stopBots"`)
-console.log(`Connected bot now will not show but they will be connected`)
-console.log(`Bot disables after five minutes! it resets when you are doing anything`)
+console.log(`To start bots type (without quotes) "startBots(count, botsPerProxy, timeout)" type "stopBots()"`)
 console.log("------------------------------------------------".blue);
 
 function startBots(count = 50, botperProxy = 1, timeout = 10) {

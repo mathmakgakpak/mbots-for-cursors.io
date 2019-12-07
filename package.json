@@ -1,6 +1,6 @@
 {
   "name": "cursors.io",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "nodejs cursors.io bots!",
   "main": "index.js",
   "scripts": {
