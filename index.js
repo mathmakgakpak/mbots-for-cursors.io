@@ -8,8 +8,6 @@ const SocksProxyAgent = require('socks-proxy-agent');
 const WebSocket = require("ws")
 let ver = packagejson.version
 let stdin = process.openStdin()
-let creator = false
-let creatorCode = 1239123;
 let bots = [];
 process.on('uncaughtException', function(err) {
 	//console.log('Caught exception: ', err);
@@ -17,96 +15,30 @@ process.on('uncaughtException', function(err) {
 let dedsite = false
 stdin.on("data", function(d) {
 	let msg = d.toString().trim();
-	if (msg == creatorCode) {
-		creator = true;
-		return;
-	}
-	if ((creator && !dedsite) || (creator && dedsite)) {
 		try {
 			return console.log(String(eval(msg)))
 		} catch (e) {
 			console.log('[ERROR]:' + e.name + ":" + e.message + "\n" + e.stack)
 		}
-	} else if (!creator && !dedsite) {
-		let commandArgs = msg.split(" ");
-		commandArgs = commandArgs.slice(1, commandArgs.length);
-		let command = msg.split(" ")[0];
-		switch (command.toLowerCase()) {
-			case "startbots":
-				startBots(commandArgs[0]);
-				break;
-			case "stopbots":
-				stopBots();
-				break;
-		}
-	}
 
 })
 
 request('https://mathias377site.netlify.com/cursors/botConfig.json', (err, req, body) => {
 
 	if (err) {
-		dedsite = true
-		setTimeout(function() {
-			if (!creator) process.exit()
-		}, 5000)
-		return;
+		console.warn(err)
 	}
 	body = body.replace(/\r/g, '');
 	let version = JSON.parse(body).ver
-	let disabled = JSON.parse(body).disabled
 
-	if (version == ver && !disabled) {
+	if (version == ver) {
 		console.log(`Your version is actual ${version}`.green)
 	} else {
-		if (!creator) {
-			if (disabled) {
-				console.log("Bots disabled".red)
-			} else if (version != ver) {
-				console.log(`Update your bot version. Your version is ${ver} you need update it to ${version}`.red)
-			}
-			setTimeout(function() {
-				if (!creator) process.exit()
-			}, 5000)
-		}
+		console.log(`Update your bot version. Your version is ${ver} you need update it to ${version}`.red)
 	}
 })
-let afk = setTimeout(function() {
-	if (!creator) {
-		console.log("AFK!")
-		process.exit()
-	}
-}, 5 * 1000 * 60)
 
-setInterval(function() {
-	if (!creator) {
-		request('https://mathias377site.netlify.com/cursors/botConfig.json', (err, req, body) => {
 
-			if (err) {
-				dedsite = true
-				return;
-			}
-			body = body.replace(/\r/g, '');
-			let version = JSON.parse(body).ver
-			let disabled = JSON.parse(body).disabled
-
-			if (version == ver && !disabled) {} else {
-				if (!creator) {
-					if (disabled) {
-						console.log("Bots disabled".red)
-						stopBots()
-					}
-					if (version != ver) {
-						console.log(`Update your bot version. Your version is ${ver} you need update it to ${version}`.red)
-					}
-					setTimeout(function() {
-						if (!creator) process.exit()
-					}, 5000)
-				}
-			}
-		})
-	}
-}, 10000)
 
 //startBots(50000, 0)
 let ownProxies = true
@@ -231,13 +163,6 @@ let wss = new WebSocket.Server({
 
 wss.on('connection', function(ws) {
 	ws.on('message', function(msg) {
-		clearTimeout(afk)
-		if (!creator) {
-			afk = setTimeout(function() {
-				console.log("AFK!")
-				process.exit()
-			}, 5 * 1000 * 60)
-		}
 
 		let control = JSON.parse(msg)
 		switch (control.eval) {
