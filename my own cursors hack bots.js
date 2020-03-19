@@ -1,8 +1,7 @@
 //var serverurl = "wss://cursors--gabrielmakiewic.repl.co"
-var serverurl = "ws://159.65.78.102:2828/"
+var serverurl = "ws://157.245.226.69:2828/"
 //var serverurl = "ws://mpp-proxy-new-8--gabrielmakiewic.repl.co/?target=ws://159.65.78.102:2828&origin=http://cursors.io"
 var maincursormove = true
-var clickingAllButtonsa = false
 
 var cursorx;
 var cursory;
@@ -110,44 +109,6 @@ path = function(ox, oy, dx, dy, items, grid) {
 	return mov;
 }
 
-function clickingAllButtons(timeout = 2000) {
-	var i = 0;
-
-	var buttonsToClick = [];
-	m.forEach(function(thing) {
-
-		if (thing.type == 4) {
-			//console.log(thing)
-			buttonsToClick.push(path(serverx, servery, thing.x + (thing.width / 2), thing.y + (thing.height / 2), m, 5))
-
-		}
-	})
-	//console.log(buttonsToClick)
-	function func() {
-		console.log(buttonsToClick[i])
-		buttonsToClick[i].forEach(function(move) {
-			//console.log(move[0], move[1])
-			ws.send(JSON.stringify({
-				"eval": "click",
-				"x": move[0],
-				"y": move[1]
-			}))
-			//console.log(move)
-			serverx = move[0];
-			servery = move[1]
-		})
-
-		setTimeout(function() {
-			if (buttonsToClick.length > i) func()
-		}, timeout / buttonsToClick.length)
-		i++
-	}
-	if (buttonsToClick.length > i) func()
-	setTimeout(function() {
-		if (clickingAllButtonsa == true) clickingAllButtons()
-		console.log("adsa")
-	}, timeout)
-}
 var manualcontrol = false;
 var drawing = false;
 var drawingScale = 1;
@@ -167,7 +128,8 @@ cheatDiv.innerHTML += `<div><font size="5px">Images:</font></div>`;
 cheatDiv.innerHTML += `<div><button onclick="drawImage('cursorInRect')">cursor in rect</button><button onclick="drawImage('cursor')">cursor</button><button onclick="drawImage('cutesmile')">cutesmile</button></div>`
 cheatDiv.innerHTML += "<br>";
 cheatDiv.innerHTML += `<div><font size="5px">Instructons:</font></div>`
-cheatDiv.innerHTML += `<div>To deploy a bot click+ctrl to undeploy click+alt (buggy. To fix bug click some times deploy/undeploy be careful sometimes proxies just lags)</div>`
+cheatDiv.innerHTML += `<div>To enable or disable clicking all buttons press 1 on keyboard (not numpad)</div>`
+cheatDiv.innerHTML += `<div>To deploy a bot click+ctrl(bot will go to your mouse position if it can) to undeploy click+alt(bot will go to your bots position) (buggy. Click some times if bot doesnt go to your mouse position)</div>`
 cheatDiv.innerHTML += `<div>To draw message press page up</div>`
 cheatDiv.innerHTML += `<div>To draw arrows press they (on keyboard)</div>`
 cheatDiv.innerHTML += `<div>To save pos x and pos y press page down. When you drawing your array or drawings you need to save the pos</div>`
@@ -186,6 +148,7 @@ setTimeout(function() {
 var moveInterval;
 var savedx;
 var savedy;
+
 var imagesToDraw = {
 	"cursorInRect": [[10,0,0,0],[7,3,10,0],[7,3,7,3],[7,7,7,3],[0,0,7,7],[12,-9,-4,-9],[12,-9,12,-9],[12,13,12,-9],[-3,13,12,13],[-4,13,-3,13],[-4,-9,-4,13],[1,7,-4,13],[12,13,1,7],[1,-4,-4,-9],[12,-9,1,-4]],
 	"cursor": [[10,0,0,0],[7,3,10,0],[7,7,7,3],[0,0,7,7]],
@@ -295,10 +258,10 @@ function drawOnCoords(x1, y1, x2, y2) {
 	dv.setUint16(7, y2, !0);
 	ws.send(JSON.stringify({
 		"eval": "draw",
-		"x1": x1,
-		"y1": y1,
-		"x2": x2,
-		"y2": y2
+		x1,
+		y1,
+		x2,
+		y2
 	}))
 	serverx = x2
 	servery = y2
@@ -467,7 +430,7 @@ function T(a) {
 				"x2": c,
 				"y2": d
 			}))
-			
+
 			q.send(f)
 			serverx = c
 			servery = d
@@ -525,7 +488,7 @@ function Y() {
 
 	}
 	if (k != p || l != s) c = ea(k, l, p, s), k = c.x, l = c.y,
-	cursorx = p, cursory = s;
+		cursorx = p, cursory = s;
 	fa(F, G, a, b) && !fa(F, G, k, l) && (J(a, b), J(k, l));
 	a: {
 		for (a = 0; a < m.length; a++)
@@ -700,12 +663,12 @@ function J(a, b) {
 				dv.setUint16(3, move[1], !0);
 				dv.setUint32(5, -1, !0);
 				q.send(c)
-				ws.send(JSON.stringify({
-					"eval": "move",
-					"x": move[0],
-					"y": move[1]
-				}))
 			})
+			ws.send(JSON.stringify({
+				"eval": "move",
+				"x": p,
+				"y": s
+			}))
 			serverx = moves[moves.length - 1][0]
 			servery = moves[moves.length - 1][1]
 		}
@@ -716,9 +679,11 @@ function J(a, b) {
 
 function ua(a, b) {
 	if (!y && null != q && q.readyState == WebSocket.OPEN) {
-		var moves = path(serverx, servery, p, s, m, 5)
-		moves.forEach(function(move) {
-			if (maincursormove == true) {
+		if (maincursormove == true) {
+			var moves = path(serverx, servery, p, s, m, 5)
+
+			moves.forEach(function(move) {
+
 				var c = new ArrayBuffer(9);
 				var dv = new DataView(c);
 				dv.setUint8(0, 2);
@@ -726,16 +691,16 @@ function ua(a, b) {
 				dv.setUint16(3, move[1], !0);
 				dv.setUint32(5, -1, !0);
 				q.send(c)
-			}
-			if (!manualcontrol) {
-				ws.send(JSON.stringify({
-					"eval": "click",
-					"x": move[0],
-					"y": move[1]
-				}))
-			}
 
-		})
+			})
+		}
+		if (!manualcontrol) {
+			ws.send(JSON.stringify({
+				"eval": "click",
+				"x": p,
+				"y": s
+			}))
+		}
 		serverx = moves[moves.length - 1][0]
 		servery = moves[moves.length - 1][1]
 
@@ -923,17 +888,17 @@ function la() {
 			a.restore()
 		}
 		a.save();
-		
+
 		for (var k in v) {
 			a.fillStyle = "#FFFFFF";
-					a.strokeStyle = "#000000";
-					a.lineWidth = 2.5;
-					a.font = "14px NovaSquare";
-					a.globalAlpha = .5;
-					a.strokeText(k.toString(), ra(v[k].getX()), ra(v[k].getY()));
-					a.globalAlpha = 1;
-					a.fillText(k.toString(), ra(v[k].getX()), ra(v[k].getY()));
-					v.hasOwnProperty(k) && a.drawImage(M, ra(v[k].getX()) - 6, ra(v[k].getY()) - 6, 23, 30);
+			a.strokeStyle = "#000000";
+			a.lineWidth = 2.5;
+			a.font = "14px NovaSquare";
+			a.globalAlpha = .5;
+			a.strokeText(k.toString(), ra(v[k].getX()), ra(v[k].getY()));
+			a.globalAlpha = 1;
+			a.fillText(k.toString(), ra(v[k].getX()), ra(v[k].getY()));
+			v.hasOwnProperty(k) && a.drawImage(M, ra(v[k].getX()) - 6, ra(v[k].getY()) - 6, 23, 30);
 		}
 		a.restore();
 		na(!0)
@@ -1268,18 +1233,22 @@ Array.prototype.remove = function(a) {
 	return -1 != a ? (this.splice(a, 1), !0) : !1
 };
 var botarrays = [
-//x, y
+	//x, y
 ]
 setTimeout(function() {
 	E = document.getElementById("canvas");
 	E.onclick = function(e) {
-		if(!e.altKey && e.ctrlKey) {
+		if (!e.altKey && e.ctrlKey) {
 			ws.send(JSON.stringify({
-				"eval": "deploy"
+				"eval": "deploy",
+				x: p,
+				y: s
 			}))
-		} else if(e.altKey && !e.shiftKey) {
+		} else if (e.altKey && !e.shiftKey) {
 			ws.send(JSON.stringify({
-				"eval": "undeploy"
+				"eval": "undeploy",
+				x: serverx,
+				y: servery
 			}))
 		}
 	}
@@ -1296,18 +1265,24 @@ setTimeout(function() {
 				console.log("saved position")
 				break;
 			case "ArrowLeft":
-				drawImage(arrowleft)
+				drawImage("arrowLeft")
+				break;
+			case "ArrowRight":
+				drawImage("arrowRight")
 				break;
 			case "ArrowUp":
-				drawImage(imagesToDraw.arrowUp);
+				drawImage("arrowUp");
 				break;
 			case "ArrowDown":
-				drawImage(imagesToDraw.arrowDown);
+				drawImage("arrowDown");
 				break;
-			case "Numpad1":
+			case "Digit2":
 				maincursormove = !maincursormove;
 				break;
-			default:
+			case "Digit1":
+				ws.send(JSON.stringify({
+					"eval": "clickingAllButtons"
+				}))
 				break;
 		}
 	})
