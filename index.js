@@ -52,7 +52,7 @@ request('https://raw.githubusercontent.com/mathmakgakpak/mbots-for-cursors.io/ma
   }
 })
 
-let ownProxies = false
+let ownProxies = true
 
 let proxies;
 if (ownProxies == true) {
