@@ -13,7 +13,7 @@ Preparation:
 5. In the command window, enter npm and
 
 Renewing the proxy (If the bots will not connect):
-1. Look for socks5 proxy on the Internet (example link: https://proxy-daily.com/)and copy the proxy list
+1. Look for socks5 proxy on the Internet (example link: https://proxy-daily.com/ ) and copy the proxy list
 2. Copy the list
 3. Open the proxy.txt file, delete everything it contains and paste what you have copied
 4. Save
