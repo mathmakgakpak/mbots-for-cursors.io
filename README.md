@@ -21,7 +21,7 @@ Renewing the proxy (If the bots will not connect):
 Starting the bot:
 1. Open the bot folder.
 2. Open the command window (hold down shift and right click and select open command window)
-3. Enter the node.
+3. Enter the node .
 4. Copy the contents of the file my own cursors hack bots
 5. Open the page cursors.io http://cursors.io/?editor
 6. Open the console (ctrl + shift + and or right click on white and click explore)
