@@ -10,7 +10,7 @@ Preparation:
 2. Download mBots and extract them
 3. Open the bot folder
 4. Open the command window (hold shift and right click and select open command window)
-5. In the command window, enter npm and
+5. In the command window, enter npm i
 
 Renewing the proxy (If the bots will not connect):
 1. Look for socks5 proxy on the Internet (example link: https://proxy-daily.com/ ) and copy the proxy list
