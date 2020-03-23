@@ -1,4 +1,4 @@
-# mbots for cursors.io  
+# MBot for cursors.io  
 ## This code fully belongs to mathias377.  
 ## You can edit and publish this bot, but you should add me to credits
 
@@ -22,9 +22,9 @@ Starting the bot:
 1. Open the bot folder.
 2. Open the command window (hold down shift and right click and select open command window)
 3. Enter the node .
-4. Copy the contents of the file my own cursors hack bots
+4. Copy the contents of the file cheat minifed.js it looks suspicious but it's same as cheat.js
 5. Open the page cursors.io http://cursors.io/?editor
-6. Open the console (ctrl + shift + and or right click on white and click explore)
+6. Open the console (ctrl + shift + i or right click on white and click explore)
 7. Paste the copied content
-8.In the command window enter startBots(number of bots, 1)
+8. In the command window enter startBots(number of bots, 1)
 9. Have fun lol

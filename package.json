@@ -1,7 +1,7 @@
 {
-  "name": "cursors.io",
-  "version": "1.1.2",
-  "description": "nodejs cursors.io bots!",
+  "name": "MBot",
+  "version": "1.1.3",
+  "description": "NodeJS cursors.io bots!",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -10,11 +10,11 @@
   "dependencies": {
     "asciiart-logo": "^0.2.6",
     "colors": "^1.3.3",
+    "cursors-js": ">=1.1.9",
     "figlet": "^1.2.3",
     "fs": "^0.0.1-security",
     "request": "^2.88.0",
     "socks-proxy-agent": "^4.0.2",
-    "cursors-js": "^1.1.9",
     "ws": "^7.1.2"
   }
 }
