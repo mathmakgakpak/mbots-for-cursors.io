@@ -26,5 +26,5 @@ Starting the bot:
 5. Open the page cursors.io http://cursors.io/?editor
 6. Open the console (ctrl + shift + i or right click on white and click explore)
 7. Paste the copied content
-8. In the command window enter startBots(number of bots, 1)
+8. Enter values of How much you want bots and click connect button.
 9. Have fun lol
