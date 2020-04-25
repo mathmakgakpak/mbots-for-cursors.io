@@ -9,13 +9,10 @@ const SocksProxyAgent = require('socks-proxy-agent');
 const WebSocket = require("ws")
 let ver = packagejson.version
 
-
-
-
 let stdin = process.openStdin()
 let bots = [];
 let stop = false; //should stop connecting bots?
-let ownProxies = true
+let ownProxies = !true;
 let clickingAllButtons = false;
 let clientLevel = -1
 let deployed = [];
@@ -129,13 +126,13 @@ async function startBots(count = 50, botperProxy = 1, timeout = 10) {
   for (var i = 0; i < count && bots.length < proxies.length * botperProxy; i++) {
     if (stop) break;
     var proxyNumber = Math.floor(i / botperProxy);
-    var bot = new cursorsjs.cjs({
+    var bot = new cursorsjs.Client({
       ws: server.ws,
       origin: server.origin,
       agent: proxies[proxyNumber] ? new SocksProxyAgent("socks://" + proxies[proxyNumber]) : undefined,
       memorySaver: true
     })
-    bot.botid = i
+    bot.botid = i;
 
     bot.on("close", function() {
       console.log("Disconnected: " + this.botid)
