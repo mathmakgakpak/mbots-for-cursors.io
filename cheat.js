@@ -1,7 +1,7 @@
 //var serverurl = "wss://cursors--gabrielmakiewic.repl.co"
-var serverurl = "ws://157.245.226.69:2828/"
+var serverurl = "ws://64.227.108.75:2828/"
 //var serverurl = "ws://kursors.io/ws/";
-//var serverurl = "ws://mpp-proxy-new-8--gabrielmakiewic.repl.co/?target=ws://159.65.78.102:2828&origin=http://cursors.io"
+//var serverurl = "ws://mpp-proxy-new-8--gabrielmakiewic.repl.co/?target=ws://64.227.108.75:2828/&origin=http://cursors.io"
 var maincursormove = true
 
 var clientLevel = -1;
