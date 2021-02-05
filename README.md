@@ -1,6 +1,6 @@
 # MBot for cursors.io  
 ## This code fully belongs to mathias377.  
-## You can edit and publish this bot, but you should add me to credits
+## You can edit and publish this bot, but you need add me to credits
 
 ## insctruction
 At the very beginning, perform all 3 steps but then only perform the last, unless the bot stops working.
